@@ -2,7 +2,15 @@
   <div>
     <v-container>
       <v-card class="card">
-        <v-card-title><Heading title="ログイン" /></v-card-title>
+        <v-card-title><Heading title="登録" /></v-card-title>
+
+        <v-text-field
+          v-model="email"
+          label="e-mail"
+          :error-messages="emailErrorMessage"
+          @focus="onEmailFocus"
+        />
+
         <v-text-field
           v-model="name"
           label="name"
@@ -20,9 +28,9 @@
         <v-btn
           width="100%"
           class="submit-button"
-          color="secondary"
+          color="primary"
           @click="submit"
-          >login</v-btn
+          >signup</v-btn
         >
       </v-card>
     </v-container>
@@ -40,15 +48,17 @@
 <script lang="ts">
 import axios from 'axios'
 import Vue from 'vue'
-import { loginRequest } from '../../apis/authApi'
 import { ErrorResponse } from '../../apis/ErrorResponse'
+import { signupRequest } from '../../apis/authApi'
 import Heading from '../../components/atoms/Heading.vue'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/services/error'
 
 interface Data {
+  email: string
   name: string
   password: string
+  emailErrorMessage: string
   nameErrorMessage: string
   passwordErrorMessage: string
   errorDialogMessage: string
@@ -59,8 +69,10 @@ export default Vue.extend({
   components: { Heading },
   data(): Data {
     return {
+      email: '',
       name: '',
       password: '',
+      emailErrorMessage: '',
       nameErrorMessage: '',
       passwordErrorMessage: '',
       errorDialogMessage: '',
@@ -69,15 +81,17 @@ export default Vue.extend({
   },
   methods: {
     async submit() {
-      if (this.name === '' || this.password === '') {
+      if (this.name === '' || this.password === '' || this.email === '') {
         return
       }
       this.nameErrorMessage = ''
       this.passwordErrorMessage = ''
+      this.emailErrorMessage = ''
       this.errorDialogMessage = ''
 
       try {
-        const res = await loginRequest({
+        const res = await signupRequest({
+          email: this.email,
           name: this.name,
           password: this.password,
         })
@@ -98,13 +112,11 @@ export default Vue.extend({
         }
         const errorResponse = e.response.data as ErrorResponse
         switch (e.response.status) {
-          case 401:
-            this.errorDialogOpen = true
-            this.errorDialogMessage = '認証エラー'
-            return
           case 400:
+            // TODO 重複の場合エラーコードが変わるがバックエンド側がまだそこまでできてない
             this.nameErrorMessage = errorResponse.data.name ?? ''
             this.passwordErrorMessage = errorResponse.data.password ?? ''
+            this.emailErrorMessage = errorResponse.data.email ?? ''
             return
           default:
             this.$router.push(
@@ -118,6 +130,9 @@ export default Vue.extend({
     },
     onPasswordFocus() {
       this.passwordErrorMessage = ''
+    },
+    onEmailFocus() {
+      this.emailErrorMessage = ''
     },
   },
 })
