@@ -3,12 +3,9 @@
     <Heading title="作成した記事一覧" />
     <div v-if="!posts.length">作成した記事はありません</div>
     <div v-if="posts.length">
-      <v-card v-for="(post, i) in posts" :key="i" class="card">
-        <v-row justify="space-between" align="center" class="row">
-          {{ post.title }}
-          {{ post.author.name }}
-        </v-row>
-      </v-card>
+      <div v-for="(post, i) in posts" :key="i" class="post-row">
+        <PostCard :post="post" />
+      </div>
     </div>
     <Loading :open="loading" />
   </v-container>
@@ -20,6 +17,7 @@ import axios from 'axios'
 import { Post, getMyPosts } from '../../apis/postApi'
 import Heading from '../../components/atoms/Heading.vue'
 import Loading from '../../components/atoms/Loading.vue'
+import PostCard from '../../components/blocks/MyPostCard.vue'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/services/error'
 
@@ -30,7 +28,7 @@ interface Data {
 }
 
 export default Vue.extend({
-  components: { Heading, Loading },
+  components: { Heading, Loading, PostCard },
   data(): Data {
     return {
       loading: true,
@@ -75,14 +73,7 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.card {
-  cursor: pointer;
-  color: black;
-  background-color: white;
-  margin-bottom: 30px;
-}
-
-.row {
-  padding: 10px 20px;
+.post-row {
+  margin-bottom: 20px;
 }
 </style>
