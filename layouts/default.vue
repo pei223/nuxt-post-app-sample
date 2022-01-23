@@ -61,7 +61,7 @@ export default {
         {
           icon: 'mdi-apps',
           title: '記事作成',
-          to: 'posts/add',
+          to: '/posts/add',
         },
         {
           icon: 'mdi-apps',

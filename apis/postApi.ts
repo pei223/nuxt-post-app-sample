@@ -1,5 +1,11 @@
 import { fetcher } from './baseApi'
 
+export type PostBody = {
+  title: string
+  content: string
+  expose: boolean
+}
+
 export type Author = {
   id: number
   name: string
@@ -32,4 +38,15 @@ export const getMyPosts = async (
     },
   })
   return result.data
+}
+
+export const registerPost = async (
+  accessToken: string,
+  postBody: PostBody
+): Promise<void> => {
+  await fetcher.post(`/posts/`, postBody, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
 }

@@ -7,6 +7,9 @@
         <PostCard :post="post" />
       </div>
     </div>
+    <v-btn color="secondary" fab class="add-btn" @click="goAddPostPage">
+      <v-icon>mdi-pencil-plus</v-icon>
+    </v-btn>
     <Loading :open="loading" />
   </v-container>
 </template>
@@ -69,11 +72,22 @@ export default Vue.extend({
       }
     }
   },
+  methods: {
+    goAddPostPage() {
+      this.$router.push('/posts/add')
+    },
+  },
 })
 </script>
 
 <style scoped>
 .post-row {
   margin-bottom: 20px;
+}
+
+.add-btn {
+  position: fixed;
+  right: 60px;
+  bottom: 60px;
 }
 </style>
