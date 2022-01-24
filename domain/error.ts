@@ -2,6 +2,7 @@ export const ERROR_CODE = {
   networkError: 1,
   unexpectedApiError: 2,
   notFound: 3,
+  paramError: 4,
   notAxiosError: 999,
 } as const
 

@@ -36,7 +36,9 @@ export default Vue.extend({
     },
   },
   methods: {
-    onPostClick() {},
+    onPostClick() {
+      this.$router.push(`/posts/${this.post.id}`)
+    },
   },
 })
 </script>
