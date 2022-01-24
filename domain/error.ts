@@ -7,7 +7,7 @@ export const ERROR_CODE = {
 
 export type ErrorCode = typeof ERROR_CODE[keyof typeof ERROR_CODE]
 
-export type ErrorFormat = {
+export type ErrorInfo = {
   path: string
   code: ErrorCode
 }
@@ -16,7 +16,7 @@ export const genErrorPath = (path: string, errorCode: ErrorCode) => {
   return `/error?id=${path}-${errorCode}`
 }
 
-export const parseErrorId = (id: string): ErrorFormat => {
+export const parseErrorId = (id: string): ErrorInfo => {
   const fields = id.split('-')
   return {
     path: fields[0],

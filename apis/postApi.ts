@@ -1,4 +1,5 @@
-import { fetcher } from './baseApi'
+import { PostList } from '../domain/post'
+import { baseApi } from './baseApi'
 
 export type PostBody = {
   title: string
@@ -6,33 +7,11 @@ export type PostBody = {
   expose: boolean
 }
 
-export type Author = {
-  id: number
-  name: string
-  email: string
-  updatedAt: string
-  createdAt: string
-}
-export type Post = {
-  id: number
-  title: string
-  content: string
-  expose: boolean
-  createdAt: string
-  updatedAt: string
-  author: Author
-}
-
-export type PostsRes = {
-  posts: Post[]
-  totalPage: number
-}
-
 export const getMyPosts = async (
   accessToken: string,
   page: number
-): Promise<PostsRes> => {
-  const result = await fetcher.get<PostsRes>(`/posts/me?page=${page}`, {
+): Promise<PostList> => {
+  const result = await baseApi.get<PostList>(`/posts/me?page=${page}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -44,7 +23,7 @@ export const registerPost = async (
   accessToken: string,
   postBody: PostBody
 ): Promise<void> => {
-  await fetcher.post(`/posts/`, postBody, {
+  await baseApi.post(`/posts/`, postBody, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

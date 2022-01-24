@@ -21,7 +21,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import { convertToFormatDateStr } from '../../services/convertUtil'
-import { Post } from '../../apis/postApi'
+import { Post } from '../../domain/post'
 
 export default Vue.extend({
   props: {

@@ -52,7 +52,7 @@ import { ErrorResponse } from '../../apis/ErrorResponse'
 import { signupRequest } from '../../apis/authApi'
 import Heading from '../../components/atoms/Heading.vue'
 import { appStore } from '~/store'
-import { ERROR_CODE, genErrorPath } from '~/services/error'
+import { ERROR_CODE, genErrorPath } from '~/domain/error'
 
 interface Data {
   email: string

@@ -44,7 +44,7 @@ import { loginRequest } from '../../apis/authApi'
 import { ErrorResponse } from '../../apis/ErrorResponse'
 import Heading from '../../components/atoms/Heading.vue'
 import { appStore } from '~/store'
-import { ERROR_CODE, genErrorPath } from '~/services/error'
+import { ERROR_CODE, genErrorPath } from '~/domain/error'
 
 interface Data {
   name: string

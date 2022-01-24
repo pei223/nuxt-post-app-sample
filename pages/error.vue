@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { ERROR_CODE, parseErrorId } from '~/services/error'
+import { ERROR_CODE, parseErrorId } from '~/domain/error'
 
 export default Vue.extend({
   head: {

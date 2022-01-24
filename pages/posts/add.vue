@@ -50,7 +50,7 @@ import { registerPost } from '../../apis/postApi'
 import Heading from '../../components/atoms/Heading.vue'
 import Loading from '../../components/atoms/Loading.vue'
 import { appStore } from '~/store'
-import { ERROR_CODE, genErrorPath } from '~/services/error'
+import { ERROR_CODE, genErrorPath } from '~/domain/error'
 
 interface Data {
   title: string

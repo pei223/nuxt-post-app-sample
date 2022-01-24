@@ -17,12 +17,13 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from 'axios'
-import { Post, getMyPosts } from '../../apis/postApi'
+import { getMyPosts } from '../../apis/postApi'
 import Heading from '../../components/atoms/Heading.vue'
 import Loading from '../../components/atoms/Loading.vue'
 import PostCard from '../../components/blocks/MyPostCard.vue'
+import { Post } from '../../domain/post'
 import { appStore } from '~/store'
-import { ERROR_CODE, genErrorPath } from '~/services/error'
+import { ERROR_CODE, genErrorPath } from '~/domain/error'
 
 interface Data {
   loading: boolean
