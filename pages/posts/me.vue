@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <Heading title="作成した記事一覧" />
-    <div v-if="!posts.length">作成した記事はありません</div>
+    <div v-if="!posts.length && !loading">作成した記事はありません</div>
     <div v-if="posts.length">
       <div v-for="(post, i) in posts" :key="i" class="post-row">
         <PostCard :post="post" />

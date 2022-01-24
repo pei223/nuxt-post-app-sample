@@ -1,45 +1,11 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      :clipped="clipped"
-      fixed
-      app
-      temporary
-    >
-      <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
-          </v-list-item-content>
-        </v-list-item>
-
-        <div class="logout-row">
-          <v-divider />
-          <v-list-item v-ripple>
-            <v-list-item-action>
-              <v-icon>mdi-apps</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>ログアウト</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </div>
-      </v-list>
-    </v-navigation-drawer>
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
-    </v-app-bar>
+    <div v-if="logined">
+      <Header />
+    </div>
+    <div v-else>
+      <NoLoginHeader />
+    </div>
     <v-main>
       <v-container>
         <Nuxt />
@@ -52,39 +18,17 @@
 </template>
 
 <script lang="ts">
-export default {
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: '自分の記事一覧',
-          to: '/posts/me',
-        },
-        {
-          icon: 'mdi-apps',
-          title: '記事作成',
-          to: '/posts/add',
-        },
-        {
-          icon: 'mdi-apps',
-          title: 'アカウント情報',
-          to: '/self',
-        },
-      ],
-      right: true,
-      title: 'Post app',
-    }
-  },
-}
-</script>
+import Vue from 'vue'
+import NoLoginHeader from '../components/blocks/NoLoginHeader.vue'
+import Header from '../components/blocks/Header.vue'
+import { appStore } from '~/store'
 
-<style scoped>
-.logout-row {
-  cursor: pointer;
-  margin-top: 40px;
-}
-</style>
+export default Vue.extend({
+  components: { Header, NoLoginHeader },
+  computed: {
+    logined(): boolean {
+      return appStore.accessToken !== ''
+    },
+  },
+})
+</script>
