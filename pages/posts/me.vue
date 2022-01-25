@@ -43,6 +43,7 @@ export default Vue.extend({
   async mounted() {
     if (appStore.accessToken === '') {
       this.$router.push('/auth/login')
+      return
     }
     try {
       const res = await getMyPosts(appStore.accessToken, 1)

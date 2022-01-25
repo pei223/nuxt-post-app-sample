@@ -1,15 +1,13 @@
 import { baseApi } from './baseApi'
+import { User } from '~/domain/UserInfo'
 
 export type LoginBody = {
   name: string
   password: string
 }
 
-export type LoginRes = {
+export type LoginRes = User & {
   token: string
-  id: number
-  name: string
-  email: string
 }
 
 export type SignupBody = {

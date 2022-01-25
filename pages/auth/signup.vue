@@ -96,6 +96,7 @@ export default Vue.extend({
           password: this.password,
         })
         appStore.setAccessToken(res.token)
+        appStore.setUser(res)
         this.$router.push('/posts/me')
       } catch (e) {
         if (!axios.isAxiosError(e)) {

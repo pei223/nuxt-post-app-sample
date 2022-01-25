@@ -82,7 +82,12 @@ export default Vue.extend({
           password: this.password,
         })
         appStore.setAccessToken(res.token)
-        this.$router.push('/posts/me')
+        appStore.setUser(res)
+        this.$router.push(
+          !this.$route.query.redirectUrl
+            ? '/posts/me'
+            : (this.$route.query.redirectUrl as string)
+        )
       } catch (e) {
         if (!axios.isAxiosError(e)) {
           this.$router.push(

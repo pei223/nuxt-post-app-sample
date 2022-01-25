@@ -3,16 +3,21 @@
     <v-container>
       <div v-if="post">
         <v-card class="card">
-          <v-row justify="space-between" align="center">
+          <v-row>
             <v-card-title>
               <Heading :title="post.title" />
             </v-card-title>
-            <!-- TODO 鍵アイコン -->
-            <span v-if="!post.expose">非公開</span>
           </v-row>
 
+          <v-row class="actions-area" justify="space-between" align="center">
+            <!-- TODO 鍵アイコン -->
+            <span v-if="!post.expose">非公開</span>
+            <v-btn v-if="isEditable" @click="goEditPage">編集</v-btn>
+          </v-row>
+          <v-divider />
+
           <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-html="$md.render(post.content)"></div>
+          <div class="content" v-html="$md.render(post.content)"></div>
         </v-card>
       </div>
       <Loading :open="loading" />
@@ -22,8 +27,8 @@
 <script lang="ts">
 import Vue from 'vue'
 import axios from 'axios'
-import Heading from '../../components/atoms/Heading.vue'
-import Loading from '../../components/atoms/Loading.vue'
+import Heading from '../../../components/atoms/Heading.vue'
+import Loading from '../../../components/atoms/Loading.vue'
 import { Post } from '~/domain/post'
 import { appStore } from '~/store'
 import { findPost } from '~/apis/postApi'
@@ -40,6 +45,14 @@ export default Vue.extend({
       post: null,
       loading: true,
     }
+  },
+  computed: {
+    isEditable(): boolean {
+      if (appStore.curretnUser === null || this.post === null) {
+        return false
+      }
+      return this.post.author.id === appStore.curretnUser.id
+    },
   },
   async mounted() {
     try {
@@ -75,11 +88,26 @@ export default Vue.extend({
       }
     }
   },
+  methods: {
+    goEditPage() {
+      if (this.post === null) {
+        return
+      }
+      this.$router.push(`/posts/${this.post.id}/edit`)
+    },
+  },
 })
 </script>
 
 <style scoped>
 .card {
   padding: 30px;
+}
+.actions-area {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+.content {
+  margin-top: 20px;
 }
 </style>

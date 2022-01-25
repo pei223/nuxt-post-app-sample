@@ -30,6 +30,18 @@ export const registerPost = async (
   })
 }
 
+export const updatePost = async (
+  accessToken: string,
+  postId: number,
+  postBody: PostBody
+): Promise<void> => {
+  await baseApi.put(`/posts/${postId}`, postBody, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+}
+
 export const findPost = async (
   accessToken: string | null,
   postId: number
