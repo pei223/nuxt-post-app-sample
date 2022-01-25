@@ -58,3 +58,14 @@ export const findPost = async (
     return res.data
   }
 }
+
+export const deletePost = async (
+  accessToken: string | null,
+  postId: number
+): Promise<void> => {
+  await baseApi.delete(`/posts/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+}
