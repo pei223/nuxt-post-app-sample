@@ -38,11 +38,11 @@ import { Post } from '../../domain/post'
 export default Vue.extend({
   props: {
     post: {
-      type: Object as () => Post,
+      type: Object as PropType<Post>,
       required: true,
     },
     onDeleteClicked: {
-      type: Object as PropType<(post: Post) => void>,
+      type: Function as PropType<(post: Post) => void>,
       required: true,
     },
   },
@@ -70,12 +70,12 @@ export default Vue.extend({
 }
 
 .post-author {
-  color: #2c2c2c;
-  font-size: 1.1rem;
+  color: #7c7c7c;
+  font-size: 1rem;
 }
 
 .post-created-at {
-  color: #2c2c2c;
+  color: #7c7c7c;
   font-size: 0.8rem;
 }
 </style>

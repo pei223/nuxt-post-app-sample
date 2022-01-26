@@ -13,19 +13,18 @@
       </v-btn>
       <Loading :open="loading" />
     </v-container>
-    <v-dialog v-if="targetPostToDelete" v-model="targetPostToDelete">
-      <v-card>
-        <v-card-title> 削除確認 </v-card-title>
-        <v-card-text>
-          記事: {{ targetPostToDelete.title }}を削除しますか？</v-card-text
-        >
-        <v-card-actions>
-          <v-btn text color="danger" @click="deletePost"> 削除します </v-btn>
-          <v-btn text color="info" @click="cancelDeletingPost">
-            キャンセル
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+    <v-dialog
+      v-if="targetPostToDelete"
+      v-model="targetPostToDelete"
+      @close="cancelDeletingPost"
+    >
+      <ConfirmDialogContent
+        title="削除確認"
+        :message="'記事: ' + targetPostToDelete.title + 'を削除しますか？'"
+        :on-cancel="cancelDeletingPost"
+        agree-text="削除"
+        :on-agree="deletePost"
+      />
     </v-dialog>
   </div>
 </template>
@@ -36,6 +35,7 @@ import axios from 'axios'
 import { deletePost, getMyPosts } from '../../apis/postApi'
 import Heading from '../../components/atoms/Heading.vue'
 import Loading from '../../components/atoms/Loading.vue'
+import ConfirmDialogContent from '../../components/blocks/ConfirmDialogContent.vue'
 import PostCard from '../../components/blocks/MyPostCard.vue'
 import { Post } from '../../domain/post'
 import { appStore } from '~/store'
@@ -49,7 +49,7 @@ interface Data {
 }
 
 export default Vue.extend({
-  components: { Heading, Loading, PostCard },
+  components: { Heading, Loading, PostCard, ConfirmDialogContent },
   data(): Data {
     return {
       loading: true,

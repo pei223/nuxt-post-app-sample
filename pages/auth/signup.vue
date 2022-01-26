@@ -53,6 +53,7 @@ import { signupRequest } from '../../apis/authApi'
 import Heading from '../../components/atoms/Heading.vue'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
+import CookieService from '~/services/CookieService'
 
 interface Data {
   email: string
@@ -102,6 +103,7 @@ export default Vue.extend({
         })
         appStore.setAccessToken(res.token)
         appStore.setUser(res)
+        new CookieService().setAuthToken(res.token)
         this.$router.push('/posts/me')
       } catch (e) {
         if (!axios.isAxiosError(e)) {

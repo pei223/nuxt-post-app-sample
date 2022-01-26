@@ -66,6 +66,11 @@ export default Vue.extend({
       menus: [
         {
           icon: 'mdi-apps',
+          title: '記事一覧',
+          to: '/posts/',
+        },
+        {
+          icon: 'mdi-apps',
           title: '自分の記事一覧',
           to: '/posts/me',
         },

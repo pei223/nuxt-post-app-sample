@@ -39,7 +39,7 @@ interface Data {
   post: Post | null
   loading: boolean
 }
-export default Vue.extend({
+export default Vue.extend<Data, any, unknown>({
   components: { Heading, Loading },
 
   data(): Data {

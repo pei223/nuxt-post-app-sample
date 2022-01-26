@@ -19,6 +19,18 @@ export const getMyPosts = async (
   return result.data
 }
 
+export const getPosts = async (
+  accessToken: string,
+  page: number
+): Promise<PostList> => {
+  const result = await baseApi.get<PostList>(`/posts/?page=${page}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  return result.data
+}
+
 export const registerPost = async (
   accessToken: string,
   postBody: PostBody
