@@ -79,6 +79,11 @@ export default Vue.extend({
       errorDialogOpen: false,
     }
   },
+  head() {
+    return {
+      title: 'アカウント登録',
+    }
+  },
   methods: {
     async submit() {
       if (this.name === '' || this.password === '' || this.email === '') {

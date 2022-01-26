@@ -22,22 +22,17 @@ interface Data {
 
 export default Vue.extend({
   components: { PostForm, Loading },
+
   data(): Data {
     return {
       post: null,
       loading: false,
     }
   },
-  computed: {
-    isEditable(): boolean {
-      if (this.post === null) {
-        return false
-      }
-      return (
-        appStore.curretnUser !== null &&
-        this.post.author.id === appStore.curretnUser.id
-      )
-    },
+  head() {
+    return {
+      title: '記事編集',
+    }
   },
   async mounted() {
     if (appStore.accessToken === '') {

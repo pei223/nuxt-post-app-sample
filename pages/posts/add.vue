@@ -22,6 +22,11 @@ export default Vue.extend({
       loading: false,
     }
   },
+  head() {
+    return {
+      title: '記事登録',
+    }
+  },
   mounted() {
     if (appStore.accessToken === '') {
       this.$router.push('/auth/login')

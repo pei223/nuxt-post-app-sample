@@ -67,6 +67,11 @@ export default Vue.extend({
       errorDialogOpen: false,
     }
   },
+  head() {
+    return {
+      title: 'ログイン',
+    }
+  },
   methods: {
     async submit() {
       if (this.name === '' || this.password === '') {

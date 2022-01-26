@@ -50,15 +50,17 @@ interface Data {
 
 export default Vue.extend({
   components: { Heading, Loading, PostCard },
-  beforeRouteUpdate(_to, _from, next) {
-    next('/posts/me')
-  },
   data(): Data {
     return {
       loading: true,
       posts: [],
       totalPage: 1,
       targetPostToDelete: null,
+    }
+  },
+  head() {
+    return {
+      title: '自分の記事',
     }
   },
   mounted() {

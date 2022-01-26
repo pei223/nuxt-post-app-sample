@@ -24,6 +24,7 @@
     </v-container>
   </div>
 </template>
+
 <script lang="ts">
 import Vue from 'vue'
 import axios from 'axios'
@@ -40,10 +41,16 @@ interface Data {
 }
 export default Vue.extend({
   components: { Heading, Loading },
+
   data(): Data {
     return {
       post: null,
       loading: true,
+    }
+  },
+  head() {
+    return {
+      title: this.post ? this.post.title : '',
     }
   },
   computed: {

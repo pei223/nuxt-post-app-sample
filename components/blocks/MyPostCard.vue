@@ -4,6 +4,7 @@
       <v-col sm="11">
         <v-row>
           <h3 class="post-title">
+            <span v-if="!post.expose">(非公開)</span>
             {{ post.title }}
           </h3>
         </v-row>
