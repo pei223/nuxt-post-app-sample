@@ -8,10 +8,7 @@
           <PostCard :post="post" :on-delete-clicked="confirmDeletePost" />
         </div>
       </div>
-      <v-btn color="secondary" fab class="add-btn" @click="goAddPostPage">
-        <v-icon>mdi-pencil-plus</v-icon>
-      </v-btn>
-      <Loading :open="loading" />
+      <v-pagination v-model="page" :length="totalPage" />
     </v-container>
     <v-dialog
       v-if="targetPostToDelete"
@@ -26,6 +23,10 @@
         :on-agree="deletePost"
       />
     </v-dialog>
+    <Loading :open="loading" />
+    <v-btn color="secondary" fab class="add-btn" @click="goAddPostPage">
+      <v-icon>mdi-pencil-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
@@ -47,22 +48,38 @@ interface Data {
   posts: Post[]
   totalPage: number
   targetPostToDelete: Post | null
+  page: number
 }
 
-export default Vue.extend({
+export default Vue.extend<Data, any, unknown>({
   components: { Heading, Loading, PostCard, ConfirmDialogContent },
   data(): Data {
+    const page =
+      this.$route.query.page && !isNaN(Number(this.$route.query.page))
+        ? Number(this.$route.query.page)
+        : 1
     return {
       loading: true,
       posts: [],
       totalPage: 1,
       targetPostToDelete: null,
+      page,
     }
   },
   head() {
     return {
       title: '自分の記事',
     }
+  },
+  watch: {
+    page(value: string) {
+      this.$router.push({
+        query: {
+          page: value,
+        },
+      })
+      this.fetchPosts()
+    },
   },
   mounted() {
     this.fetchPosts()
@@ -81,7 +98,7 @@ export default Vue.extend({
         return
       }
       try {
-        const res = await getMyPosts(appStore.accessToken, 1)
+        const res = await getMyPosts(appStore.accessToken, this.page)
         this.posts = res.posts
         this.totalPage = res.totalPage
         this.loading = false
