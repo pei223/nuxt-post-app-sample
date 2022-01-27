@@ -25,7 +25,7 @@
 
         <div class="logout-row">
           <v-divider />
-          <v-list-item v-ripple>
+          <v-list-item v-ripple @click="logout">
             <v-list-item-action>
               <v-icon>mdi-apps</v-icon>
             </v-list-item-action>
@@ -45,6 +45,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import CookieService from '~/services/CookieService'
+import { appStore } from '~/store'
 
 type MenuInfo = {
   icon: string
@@ -87,6 +89,12 @@ export default Vue.extend({
       ],
       title: 'Post app',
     }
+  },
+  methods: {
+    logout() {
+      appStore.clear(new CookieService(document.cookie))
+      this.$router.push('/auth/login')
+    },
   },
 })
 </script>

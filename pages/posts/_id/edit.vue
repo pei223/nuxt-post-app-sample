@@ -14,6 +14,7 @@ import { appStore } from '~/store'
 import { Post } from '~/domain/post'
 import { findPost } from '~/apis/postApi'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
+import CookieService from '~/services/CookieService'
 
 interface Data {
   post: Post | null
@@ -68,6 +69,7 @@ export default Vue.extend({
       }
       switch (e.response.status) {
         case 401:
+          appStore.clear(new CookieService())
           this.$router.push({
             path: '/auth/login',
             query: {

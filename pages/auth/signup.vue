@@ -101,9 +101,11 @@ export default Vue.extend({
           name: this.name,
           password: this.password,
         })
-        appStore.setAccessToken(res.token)
-        appStore.setUser(res)
-        new CookieService().setAuthToken(res.token)
+
+        const cookieService = new CookieService()
+        appStore.setAccessToken({ value: res.token, cookieService })
+        appStore.setUser({ value: res, cookieService })
+
         this.$router.push('/posts/me')
       } catch (e) {
         if (!axios.isAxiosError(e)) {

@@ -73,6 +73,11 @@ export default Vue.extend({
       title: 'ログイン',
     }
   },
+  mounted() {
+    if (appStore.accessToken !== '') {
+      this.$router.push('/posts/me')
+    }
+  },
   methods: {
     async submit() {
       if (this.name === '' || this.password === '') {
@@ -87,9 +92,9 @@ export default Vue.extend({
           name: this.name,
           password: this.password,
         })
-        appStore.setAccessToken(res.token)
-        appStore.setUser(res)
-        new CookieService().setAuthToken(res.token)
+        const cookieService = new CookieService(document.cookie)
+        appStore.setAccessToken({ value: res.token, cookieService })
+        appStore.setUser({ value: res, cookieService })
         this.$router.push(
           !this.$route.query.redirectUrl
             ? '/posts/me'

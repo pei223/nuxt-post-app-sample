@@ -54,6 +54,7 @@ import Loading from '../../components/atoms/Loading.vue'
 import { Post } from '../../domain/post'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
+import CookieService from '~/services/CookieService'
 
 interface Data {
   title: string
@@ -142,6 +143,7 @@ export default Vue.extend({
             this.contentErrorMessage = errorResponse.data.content ?? ''
             return
           case 401:
+            appStore.clear(new CookieService())
             this.$router.push('/auth/login')
             return
           case 404:

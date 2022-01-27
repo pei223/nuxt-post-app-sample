@@ -40,6 +40,7 @@ import PostCard from '../../components/blocks/MyPostCard.vue'
 import { Post } from '../../domain/post'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
+import CookieService from '~/services/CookieService'
 
 interface Data {
   loading: boolean
@@ -99,6 +100,7 @@ export default Vue.extend({
         }
         switch (e.response.status) {
           case 401:
+            appStore.clear(new CookieService())
             this.$router.push('/auth/login')
             return
           default:
@@ -116,8 +118,14 @@ export default Vue.extend({
         this.loading = true
         await deletePost(appStore.accessToken, this.targetPostToDelete.id)
         this.loading = false
+        // TODO for文でindex探すのはダサい
+        for (let i = 0; i < this.posts.length; i++) {
+          if (this.posts[i].id === this.targetPostToDelete.id) {
+            this.posts.splice(i, 1)
+            break
+          }
+        }
         this.targetPostToDelete = null
-        this.fetchPosts()
       } catch (e) {
         if (!axios.isAxiosError(e)) {
           this.$router.push(
@@ -133,6 +141,7 @@ export default Vue.extend({
         }
         switch (e.response.status) {
           case 401:
+            appStore.clear(new CookieService())
             this.$router.push({
               path: '/auth/login',
               query: {

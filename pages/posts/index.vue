@@ -2,16 +2,15 @@
   <div>
     <v-container>
       <Heading title="記事一覧" />
-      <div v-if="!posts.length && !loading">記事はありません</div>
+      <div v-if="!posts.length">記事はありません</div>
       <div v-if="posts.length">
         <div v-for="(post, i) in posts" :key="i" class="post-row">
-          <PostCard :post="post" :on-delete-clicked="confirmDeletePost" />
+          <PostCard :post="post" />
         </div>
       </div>
       <v-btn color="secondary" fab class="add-btn" @click="goAddPostPage">
         <v-icon>mdi-pencil-plus</v-icon>
       </v-btn>
-      <Loading :open="loading" />
     </v-container>
   </div>
 </template>
@@ -22,7 +21,6 @@ import axios from 'axios'
 import { Context } from '@nuxt/types'
 import { getPosts } from '../../apis/postApi'
 import Heading from '../../components/atoms/Heading.vue'
-import Loading from '../../components/atoms/Loading.vue'
 import PostCard from '../../components/blocks/PostCard.vue'
 import { Post } from '../../domain/post'
 import { appStore } from '~/store'
@@ -34,7 +32,7 @@ interface Data {
 }
 
 export default Vue.extend({
-  components: { Heading, Loading, PostCard },
+  components: { Heading, PostCard },
   async asyncData(context: Context): Promise<Data> {
     try {
       const res = await getPosts(appStore.accessToken, 1)
