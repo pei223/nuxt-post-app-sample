@@ -53,6 +53,12 @@ interface Data {
 
 export default Vue.extend<Data, any, unknown>({
   components: { Heading, Loading, PostCard, ConfirmDialogContent },
+  beforeRouteUpdate(to, _from, next) {
+    this.page =
+      to.query.page && !isNaN(Number(to.query.page)) ? Number(to.query.page) : 1
+    this.fetchPosts()
+    next()
+  },
   data(): Data {
     const page =
       this.$route.query.page && !isNaN(Number(this.$route.query.page))
@@ -78,7 +84,6 @@ export default Vue.extend<Data, any, unknown>({
           page: value,
         },
       })
-      this.fetchPosts()
     },
   },
   mounted() {

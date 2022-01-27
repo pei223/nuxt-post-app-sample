@@ -69,12 +69,12 @@ export default Vue.extend({
         {
           icon: 'mdi-apps',
           title: '記事一覧',
-          to: '/posts/',
+          to: '/posts?page=1',
         },
         {
           icon: 'mdi-apps',
           title: '自分の記事一覧',
-          to: '/posts/me',
+          to: '/posts/me?page=1',
         },
         {
           icon: 'mdi-apps',

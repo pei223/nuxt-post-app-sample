@@ -35,6 +35,12 @@ interface Data {
 
 export default Vue.extend({
   components: { Heading, PostCard },
+  beforeRouteUpdate(to, _from, next) {
+    this.page =
+      to.query.page && !isNaN(Number(to.query.page)) ? Number(to.query.page) : 1
+    this.fetchPosts()
+    next()
+  },
   async asyncData(context: Context): Promise<Data> {
     const page =
       context.query.page && !isNaN(Number(context.query.page))
@@ -85,14 +91,13 @@ export default Vue.extend({
           page: value,
         },
       })
-      this.fetchPosts(Number(value))
     },
   },
   methods: {
-    async fetchPosts(page: number) {
+    async fetchPosts() {
       // TODO asyncDataと同じような処理で冗長だが、contextと$routerが違うため共通化できない
       try {
-        const res = await getPosts(appStore.accessToken, page)
+        const res = await getPosts(appStore.accessToken, this.page)
         this.posts = res.posts
         this.totalPage = res.totalPage
       } catch (e) {
