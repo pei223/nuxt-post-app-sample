@@ -11,13 +11,13 @@ import axios from 'axios'
 import Loading from '../../../components/atoms/Loading.vue'
 import PostForm from '../../../components/templates/PostForm.vue'
 import { appStore } from '~/store'
-import { Post } from '~/domain/post'
+import { MyPost } from '~/domain/post'
 import { findPost } from '~/apis/postApi'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
 import CookieService from '~/services/CookieService'
 
 interface Data {
-  post: Post | null
+  post: MyPost | null
   loading: boolean
 }
 

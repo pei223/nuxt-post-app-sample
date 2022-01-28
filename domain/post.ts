@@ -6,7 +6,7 @@ export type Author = User & {
   createdAt: string
 }
 
-export type Post = {
+export type MyPost = {
   id: number
   title: string
   content: string
@@ -14,6 +14,15 @@ export type Post = {
   createdAt: string
   updatedAt: string
   author: Author
+}
+
+export type MyPostList = {
+  posts: MyPost[]
+  totalPage: number
+}
+
+export type Post = MyPost & {
+  favorited: boolean
 }
 
 export type PostList = {
@@ -29,7 +38,7 @@ export const DEFAULT_AUTHOR: Author = {
   updatedAt: DEFAULT_DATE_STR,
 }
 
-export const DEFAULT_POST: Post = {
+export const DEFAULT_POST: MyPost = {
   id: -1,
   title: '',
   content: '',

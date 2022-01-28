@@ -1,4 +1,4 @@
-import { Post, PostList } from '../domain/post'
+import { MyPost, MyPostList, PostList } from '../domain/post'
 import { baseApi } from './baseApi'
 
 export type PostBody = {
@@ -10,8 +10,8 @@ export type PostBody = {
 export const getMyPosts = async (
   accessToken: string,
   page: number
-): Promise<PostList> => {
-  const result = await baseApi.get<PostList>(`/posts/me?page=${page}`, {
+): Promise<MyPostList> => {
+  const result = await baseApi.get<MyPostList>(`/posts/me?page=${page}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -57,16 +57,16 @@ export const updatePost = async (
 export const findPost = async (
   accessToken: string | null,
   postId: number
-): Promise<Post> => {
+): Promise<MyPost> => {
   if (accessToken !== '' && accessToken !== null) {
-    const res = await baseApi.get<Post>(`/posts/${postId}`, {
+    const res = await baseApi.get<MyPost>(`/posts/${postId}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
     return res.data
   } else {
-    const res = await baseApi.get<Post>(`/posts/${postId}`)
+    const res = await baseApi.get<MyPost>(`/posts/${postId}`)
     return res.data
   }
 }

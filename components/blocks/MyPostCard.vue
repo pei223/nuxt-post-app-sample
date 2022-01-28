@@ -33,16 +33,16 @@
 import type { PropType } from 'vue'
 import Vue from 'vue'
 import { convertToFormatDateStr } from '../../services/convertUtil'
-import { Post } from '../../domain/post'
+import { MyPost } from '../../domain/post'
 
 export default Vue.extend({
   props: {
     post: {
-      type: Object as PropType<Post>,
+      type: Object as PropType<MyPost>,
       required: true,
     },
     onDeleteClicked: {
-      type: Function as PropType<(post: Post) => void>,
+      type: Function as PropType<(post: MyPost) => void>,
       required: true,
     },
   },

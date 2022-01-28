@@ -38,16 +38,16 @@ import Heading from '../../components/atoms/Heading.vue'
 import Loading from '../../components/atoms/Loading.vue'
 import ConfirmDialogContent from '../../components/blocks/ConfirmDialogContent.vue'
 import PostCard from '../../components/blocks/MyPostCard.vue'
-import { Post } from '../../domain/post'
+import { MyPost } from '../../domain/post'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
 import CookieService from '~/services/CookieService'
 
 interface Data {
   loading: boolean
-  posts: Post[]
+  posts: MyPost[]
   totalPage: number
-  targetPostToDelete: Post | null
+  targetPostToDelete: MyPost | null
   page: number
 }
 
@@ -93,7 +93,7 @@ export default Vue.extend<Data, any, unknown>({
     goAddPostPage() {
       this.$router.push('/posts/add')
     },
-    confirmDeletePost(post: Post): boolean {
+    confirmDeletePost(post: MyPost): boolean {
       this.targetPostToDelete = post
       return true
     },

@@ -5,7 +5,11 @@
       <div v-if="!posts.length">記事はありません</div>
       <div v-if="posts.length">
         <div v-for="(post, i) in posts" :key="i" class="post-row">
-          <PostCard :post="post" />
+          <PostCard
+            :post="post"
+            :index="i"
+            :on-favorite-clicked="changeFavorite"
+          />
         </div>
       </div>
       <v-pagination v-model="page" :length="totalPage" />
@@ -13,6 +17,12 @@
     <v-btn color="secondary" fab class="add-btn" @click="goAddPostPage">
       <v-icon>mdi-pencil-plus</v-icon>
     </v-btn>
+    <v-dialog v-model="errorDialogOpen">
+      <v-card>
+        <v-card-title> お気に入り登録失敗 </v-card-title>
+        <v-card-text> すでにお気に入り登録済みです。 </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -21,16 +31,19 @@ import Vue from 'vue'
 import axios from 'axios'
 import { Context } from '@nuxt/types'
 import { getPosts } from '../../apis/postApi'
+import { addFavorite, deleteFavorite } from '../../apis/favoriteApi'
 import Heading from '../../components/atoms/Heading.vue'
 import PostCard from '../../components/blocks/PostCard.vue'
 import { Post } from '../../domain/post'
 import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
+import CookieService from '~/services/CookieService'
 
 interface Data {
   posts: Post[]
   totalPage: number
   page: number
+  errorDialogOpen: boolean
 }
 
 export default Vue.extend({
@@ -52,6 +65,7 @@ export default Vue.extend({
         posts: res.posts,
         totalPage: res.totalPage,
         page,
+        errorDialogOpen: false,
       }
     } catch (e) {
       if (!axios.isAxiosError(e)) {
@@ -77,6 +91,7 @@ export default Vue.extend({
       posts: [],
       totalPage: 1,
       page: 1,
+      errorDialogOpen: false,
     }
   },
   head() {
@@ -113,6 +128,59 @@ export default Vue.extend({
           default:
             this.$router.push(
               genErrorPath('/posts', ERROR_CODE.unexpectedApiError)
+            )
+        }
+      }
+    },
+    async changeFavorite(i: number, post: Post) {
+      if (appStore.accessToken === '') {
+        this.$router.push({
+          path: '/auth/login',
+          query: {
+            redirectUrl: this.$route.path,
+          },
+        })
+        return
+      }
+      try {
+        post.favorited
+          ? await deleteFavorite(appStore.accessToken, post.id)
+          : await addFavorite(appStore.accessToken, post.id)
+        const newPost = { ...this.posts[i] }
+        newPost.favorited = !newPost.favorited
+        this.$set(this.posts, i, newPost)
+      } catch (e) {
+        if (!axios.isAxiosError(e)) {
+          this.$router.push(
+            genErrorPath(this.$route.path, ERROR_CODE.notAxiosError)
+          )
+          return
+        }
+        if (!e.response) {
+          this.$router.push(
+            genErrorPath(this.$route.path, ERROR_CODE.networkError)
+          )
+          return
+        }
+        switch (e.response.status) {
+          case 400:
+            this.errorDialogOpen = true
+            return
+          case 401:
+            appStore.clear(new CookieService())
+            this.$router.push({
+              path: '/auth/login',
+              query: {
+                redirectUrl: this.$route.path,
+              },
+            })
+            return
+          case 404:
+            this.$router.push('/404')
+            return
+          default:
+            this.$router.push(
+              genErrorPath(this.$route.path, ERROR_CODE.unexpectedApiError)
             )
         }
       }
