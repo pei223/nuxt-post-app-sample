@@ -31,7 +31,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { Context } from '@nuxt/types'
 import { getPosts } from '../../apis/postApi'
-import { addFavorite, deleteFavorite } from '../../apis/favoriteApi'
+import { addFavorite, deleteFavoriteByPostId } from '../../apis/favoriteApi'
 import Heading from '../../components/atoms/Heading.vue'
 import PostCard from '../../components/blocks/PostCard.vue'
 import { Post } from '../../domain/post'
@@ -144,7 +144,7 @@ export default Vue.extend({
       }
       try {
         post.favorited
-          ? await deleteFavorite(appStore.accessToken, post.id)
+          ? await deleteFavoriteByPostId(appStore.accessToken, post.id)
           : await addFavorite(appStore.accessToken, post.id)
         const newPost = { ...this.posts[i] }
         newPost.favorited = !newPost.favorited

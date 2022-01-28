@@ -78,6 +78,11 @@ export default Vue.extend({
         },
         {
           icon: 'mdi-apps',
+          title: 'お気に入り一覧',
+          to: '/favorites?page=1',
+        },
+        {
+          icon: 'mdi-apps',
           title: '記事作成',
           to: '/posts/add',
         },
