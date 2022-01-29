@@ -55,9 +55,10 @@ export const deleteFavoriteByFavoriteId = async (
 }
 
 export const getFavorites = async (
-  accessToken: string
+  accessToken: string,
+  page: number
 ): Promise<FavoriteList> => {
-  const result = await baseApi.get<FavoriteList>(`/favorites/`, {
+  const result = await baseApi.get<FavoriteList>(`/favorites/?page=${page}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },

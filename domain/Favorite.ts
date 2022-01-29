@@ -8,4 +8,5 @@ export type Favorite = {
 
 export type FavoriteList = {
   favorites: Favorite
+  totalPage: number
 }

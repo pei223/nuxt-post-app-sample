@@ -83,8 +83,9 @@ export default Vue.extend<Data, any, unknown>({
         return
       }
       try {
-        const res = await getFavorites(appStore.accessToken)
+        const res = await getFavorites(appStore.accessToken, this.page)
         this.favorites = res.favorites
+        this.totalPage = res.totalPage
         this.loading = false
       } catch (e) {
         if (!axios.isAxiosError(e)) {

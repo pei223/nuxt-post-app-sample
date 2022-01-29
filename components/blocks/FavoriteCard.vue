@@ -50,6 +50,9 @@ export default Vue.extend({
   },
   methods: {
     goPostDetailPage() {
+      if (this.isDeleted) {
+        return
+      }
       this.$router.push(`/posts/${this.favorite.postId}`)
     },
   },
