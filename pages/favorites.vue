@@ -30,7 +30,7 @@ import { appStore } from '~/store'
 import { ERROR_CODE, genErrorPath } from '~/domain/error'
 import CookieService from '~/services/CookieService'
 import { Favorite } from '~/domain/Favorite'
-import { deleteFavoriteByFavoriteId, getFavorites } from '~/apis/favoriteApi'
+import { deleteFavorite, getFavorites } from '~/apis/favoriteApi'
 
 interface Data {
   loading: boolean
@@ -115,7 +115,7 @@ export default Vue.extend<Data, any, unknown>({
     async deleteFavorite(index: number, favorite: Favorite) {
       try {
         this.loading = true
-        await deleteFavoriteByFavoriteId(appStore.accessToken, favorite.id)
+        await deleteFavorite(appStore.accessToken, favorite.postId)
         this.loading = false
         this.favorites.splice(index, 1)
       } catch (e) {
