@@ -10,7 +10,8 @@
     "lint:js": "eslint --ext \".js,.vue\" --fix \"**/*.{js,vue}\" --ignore-path .gitignore .",
     "lint:style": "stylelint \"**/*.{vue,css}\" --fix \"**/*.{vue,css}\" --ignore-path .gitignore",
     "lint": "npm run lint:js && npm run lint:style",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "cypress run"
   },
   "dependencies": {
     "@nuxtjs/markdownit": "^2.0.0",
@@ -33,6 +34,7 @@
     "@vue/test-utils": "^1.2.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^27.0.5",
+    "cypress": "^9.5.2",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-nuxt": "^2.0.0",
